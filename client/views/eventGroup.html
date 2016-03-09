@@ -1,0 +1,162 @@
+<template name="eventGroup">
+  <h2 align="center">{{this.name}}</h2>
+  <div class="col-sm-3"><h3 align="center">Group members</h3>
+	  <table class="table table-hover">
+	  	<thead class="lead">
+	  		<tr>
+	  			<th>Name</th>
+	  			<th>Confirm</th>
+	  			<th></th>
+	  		</tr>
+	  	</thead>
+	  	<tbody>
+	  		{{#each this.users}}
+	  			<tr>
+						<th>{{this.name}}</th>
+						<th class="text-right">
+							{{#if ifConfirmed}}
+								<i class="glyphicon glyphicon-ok"></i>
+							{{/if}}
+						</th>
+						<th class="text-right">
+							{{#if currentUser.username}}
+								{{#unless equals currentUser.username this.name}}
+									{{#if ifCreated}}
+										<button id="{{this.name}}" type="button" class="btn btn-info removeUser"><i class="glyphicon glyphicon-remove"></i></button>
+									{{/if}}
+								{{/unless}}
+							{{else}}
+								{{#unless equals currentUser.profile.name this.name}}
+									{{#if ifCreated}}
+										<button id="{{this.name}}" type="button" class="btn btn-info removeUser"><i class="glyphicon glyphicon-remove"></i></button>
+									{{/if}}
+								{{/unless}}
+							{{/if}}
+						</th>
+					</tr>
+	      {{/each}}
+	  	</tbody>
+	  </table>
+	  {{#if ifCreated}}
+			<button data-toggle="dropdown" class="btn btn-primary btn-block">Add user</button>
+		{{/if}}
+		<ul class="dropdown-menu">
+			{{#each addUser}}
+				{{#if this.username}}
+					<li><a href="#" id="username">{{this.username}}</a></li>
+				{{else}}
+					<li><a href="#" id="username">{{this.profile.name}}</a></li>
+				{{/if}}
+			{{/each}}
+		</ul>
+  </div>
+  <div class="col-sm-4"><h3 align="center">Group events</h3>
+  	<table class="table table-hover">
+	  	<thead class="lead">
+	  		<tr>
+	  			<th>Name</th>
+	  			<th>Status</th>
+	  			<th></th>
+	  		</tr>
+	  	</thead>
+	  	<tbody>
+	  		{{#each this.events}}
+	  			<tr id="events">
+						<th id="eventsName"><a>{{this}}</a></th>
+						{{#if equals events.status "ordering"}}
+							<th id="eventsName">{{events.status}}</th>
+						{{else}}
+							<th data-toggle="dropdown" class="dropdown">{{events.status}}
+							{{#if ifCreated}}
+								<span class="caret"></span>
+								<ul class="dropdown-menu dropdown-menu-right">
+									<li><a href="#" id="{{events.name}}" class="eventStatus">delivering</a></li>
+									<li><a href="#" id="{{events.name}}" class="eventStatus">delivered</a></li>
+								</ul>
+							{{/if}}
+							</th>
+						{{/if}}
+						<th class="text-right">
+							<!-- {{#if ifCreated}}
+								<button type="button" class="btn btn-info"><i class="glyphicon glyphicon-remove"></i></button>
+							{{/if}} -->
+						</th>
+					</tr>
+	      {{/each}}
+	  	</tbody>
+	  </table>
+	  {{#if ifCreated}}
+	  	<button type="button" id="addEvent" class="btn btn-primary btn-block">Add new event</button>
+	  {{/if}}
+	  {{#if addEvent}}
+	  	<input type="name" class="form-control" id="newEvent" placeholder="Name event">
+	  	<div class="alert alert-success existEvent"></div>
+	  {{/if}}
+  </div>
+  {{#if isMenu}}
+	  <div class="col-sm-5"><h3 align="center">Your order in {{isMenu}}</h3>
+	  	<table class="table table-hover">
+		  	<thead class="lead">
+		  		<tr>
+		  			<th>Name</th>
+		  			<th>Price</th>
+		  			<th></th>
+		  			<th></th>
+		  		</tr>
+		  	</thead>
+		  	<tbody>
+		  		{{#each menu}}
+		  			<tr>
+							<td>{{this.name}}</td>
+							<td>{{this.price}}</td>
+							<td>
+								<input id="{{this.name}}" class="count" type="number" min="1" max="20" value="{{this.count}}"/>
+							</td>
+							<td class="text-right"><button id="{{this.name}}" type="button" class="btn btn-info removeItem"><i class="glyphicon glyphicon-remove"></i></button></td>
+						</tr>
+		      {{/each}}
+		      {{#if addItem}}
+			      <tr>
+			      	<td><input type="text" class="form-control" id="newItem" placeholder="Name item"></td>
+			      	<td><input type="number" class="form-control" id="newPrice" placeholder="Price item"></td>
+			      </tr>
+			      <tr>
+							<td colspan="2">
+								<div class="alert alert-success existItem"></div>
+							</td>
+			      </tr>
+				  {{/if}}
+		  	</tbody>
+		  </table>
+		  {{#if ifConfirmed}}
+		  	<button type="button" id="addItem" class="btn btn-primary btn-block">Add new item</button>
+		  	<button type="button" id="order" class="btn btn-primary btn-block">Order</button>
+		  {{else}}
+		  	<button type="button" id="confirm" class="btn btn-primary btn-block">Confirm participation</button>
+		  {{/if}}
+		  {{#if ifCreated}}
+		  <h3 align="center">Order of Group</h3>
+	  	<table class="table table-hover">
+		  	<thead class="lead">
+		  		<tr>
+		  			<th>Name</th>
+		  			<th>Count</th>
+		  			<th>%</th>
+		  			<th>Price</th>
+		  		</tr>
+		  	</thead>
+		  	<tbody>
+		  		{{#each menuGroup}}
+			  		<tr>
+			  			<th>{{this.name}}</th>
+			  			<th>{{this.count}}</th>
+			  			<th><input id="{{this.name}}" class="discount" type="checkbox" checked="{{this.discount}}"></th>
+			  			<th>{{this.price}}</th>
+			  		</tr>
+			  	{{/each}}
+		  	</tbody>
+		  </table>
+		  {{/if}}
+	  </div>
+  {{/if}}
+</template>

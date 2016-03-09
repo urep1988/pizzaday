@@ -1,0 +1,12 @@
+#login-dropdown-list {
+  position: absolute;
+  right: 0px;
+  left: -130px;
+}
+body {
+  background-color: #d9edf7;
+  height: 100vh;
+}
+.dropdown:hover > .dropdown-menu { 
+    display: block; 
+}

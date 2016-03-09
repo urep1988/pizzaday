@@ -1,0 +1,19 @@
+<template name="groupsList">
+	<div class="groups col-sm-2"></div>
+  <div class="groups col-sm-8">
+	  <table class="table table-hover">
+		  <tbody>
+	      {{#each groups}}
+		      {{> groupItem}}
+		    {{/each}}
+		  </tbody>
+		</table>
+	  <div class="form-group">
+		  <button type="button" id="addGroup" class="btn btn-primary btn-lg btn-block">Add new group</button>
+		  {{#if addGroup}}
+		  	<input type="name" class="form-control input-lg" id="addName" placeholder="Name group">
+		  	<div class="alert alert-success existGroup"></div>
+		  {{/if}}
+		 </div>
+  </div>
+</template>
